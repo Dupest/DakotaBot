@@ -7,7 +7,6 @@ import urllib
 import discord
 import requests
 from urllib.parse import quote
-#asd f
 import interactions
 from discord.app_commands import commands
 from discord.ext import commands
@@ -47,6 +46,22 @@ async def on_ready():
 # )       1004907940626579488
 # async def first_command(ctx: interactions.CommandContext, text: str):
 #     await ctx.send(f'Nerd {text}')
+@bot.command()
+async def trivia(ctx):
+    #attachment = msg.attachments[0]
+    #attachment = ctx.message.attachments[0]
+    url = f"https://the-trivia-api.com/api/questions?limit=1"
+    data = requests.get(url)
+    bot_response = json.loads(data.text)
+    bot_response = bot_response[0]
+    ans = []
+    for incorrect in bot_response['incorrectAnswers']:
+        ans.append(incorrect)
+    ans.append(bot_response['correctAnswer'])
+    random.shuffle(ans)
+    answers_string = "  /  ".join(ans)
+    formatted_text = f'Category: {bot_response["category"]}\n\nQuestion: {bot_response["question"]}\n\nChoices: {answers_string}'
+    await ctx.send(formatted_text)
 
 @bot.command()
 async def compliment(ctx):

@@ -141,4 +141,4 @@ async def on_message(message):
 
 # bot.start()
 
-bot.run(open("secrets").readline())
+bot.run(open("../DakotaBot/secrets").readline())

@@ -47,6 +47,16 @@ async def on_ready():
 # )       1004907940626579488
 # async def first_command(ctx: interactions.CommandContext, text: str):
 #     await ctx.send(f'Nerd {text}')
+
+@bot.command()
+async def compliment(ctx):
+    #attachment = msg.attachments[0]
+    #attachment = ctx.message.attachments[0]
+    url = f"https://www.affirmations.dev/"
+    data = requests.get(url)
+    bot_response = json.loads(data.text)
+    await ctx.send(bot_response['affirmation'])
+
 @bot.command()
 async def magicball(ctx, *, msg):
     conn = http.client.HTTPSConnection("8ball.delegator.com")

@@ -48,8 +48,6 @@ async def on_ready():
 #     await ctx.send(f'Nerd {text}')
 @bot.command()
 async def trivia(ctx):
-    #attachment = msg.attachments[0]
-    #attachment = ctx.message.attachments[0]
     url = f"https://the-trivia-api.com/api/questions?limit=1"
     data = requests.get(url)
     bot_response = json.loads(data.text)
@@ -117,7 +115,9 @@ async def links(ctx):
 @bot.event
 async def on_message(message):
     if not message.content.startswith(command_prefix):
-        if message.channel == bot.get_channel(1011758287982706811):  #
+        if message.channel == bot.get_channel(1011758287982706811):
+            if len(message.attachments) == 0:
+                return
             await message.add_reaction("😍")
             await message.add_reaction("❤")
         if message.content.lower().startswith("/playlist"):
@@ -141,12 +141,19 @@ async def on_message(message):
             #     await message.channel.send(f'<@278393257686335488> 10 page apology for Dakota. Now!')
         if message.content.lower().startswith('/suggest '):
             SUGGESTION_FILE.write(message.content.strip("/suggest "))
+        numbers = re.findall(r'\d+', message.content.lower())
+        if numbers is not None:
+            for num in numbers:
+                if int(num) > 100:
+                    await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
-                coin_flip = random.randint(0, 1)
-                if coin_flip > 0:
+                coin_flip = random.randint(0, 2)
+                if coin_flip == 0:
                     await message.channel.send(f'<@278393257686335488> Tearful 10 page apology for Dakota. Now!')
+                elif coin_flip == 1:
+                    await message.channel.send(f'https://www.youtube.com/watch?v=c4KNd0Yv6d0')
                 else:
                     await message.channel.send(f'<@763250505182609440> What up, it\'s yo boy skinny penis')
                 return

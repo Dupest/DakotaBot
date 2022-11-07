@@ -1,6 +1,7 @@
 # This example requires the 'message_content' intent.
 import http.client
 import json
+import os
 import random
 import re
 import urllib
@@ -48,11 +49,31 @@ async def trivia(ctx):
     await ctx.send(formatted_text)
 
 @bot.command()
-async def cat_fact(ctx):
-    url = f"https://cat-fact.herokuapp.com/facts"
+async def catgif(ctx):
+    url = f"https://cataas.com/cat/gif"
     data = requests.get(url)
-    bot_response = json.loads(data.text)
-    await ctx.send(bot_response['affirmation'])
+    fp = open("image.gif", "wb")
+    fp.write(data.content)
+    fp.close()
+    file = discord.File("image.gif", filename="image.gif")
+    embed = discord.Embed()
+    embed.set_image(url="attachment://image.gif")
+    await ctx.channel.send(file=file, embed=embed)
+    os.remove("image.gif")
+
+@bot.command()
+async def cat(ctx):
+    url = f"https://cataas.com/cat"
+    data = requests.get(url)
+    fp = open("image.png", "wb")
+    fp.write(data.content)
+    fp.close()
+    file = discord.File("image.png", filename="image.png")
+    embed = discord.Embed()
+    embed.set_image(url="attachment://image.png")
+    await ctx.channel.send(file=file, embed=embed)
+    os.remove("image.png")
+    #await ctx.send(data.url)
 
 @bot.command()
 async def compliment(ctx):

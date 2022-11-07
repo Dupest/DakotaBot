@@ -153,6 +153,7 @@ async def on_message(message):
         if message.content.lower().startswith('/suggest '):
             SUGGESTION_FILE.write(message.content.strip("/suggest "))
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
+        stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)
         if len(numbers)>= 1:
             for num in numbers:

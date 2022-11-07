@@ -132,9 +132,10 @@ async def on_message(message):
         if message.content.lower().startswith('/suggest '):
             SUGGESTION_FILE.write(message.content.strip("/suggest "))
         numbers = re.findall(r'\d+', message.content.lower())
-        if len(numbers)!= 1:
-            if int(numbers[1]) > 100:
-                await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
+        if len(numbers)>= 1:
+            for num in numbers:
+                if int(num) > 100 and len(num) != 19:
+                    await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):

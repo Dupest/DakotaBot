@@ -152,7 +152,8 @@ async def on_message(message):
             #     await message.channel.send(f'<@278393257686335488> 10 page apology for Dakota. Now!')
         if message.content.lower().startswith('/suggest '):
             SUGGESTION_FILE.write(message.content.strip("/suggest "))
-        numbers = re.findall(r'\d+', message.content.lower())
+        stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
+        numbers = re.findall(r'\d+', stripped_content)
         if len(numbers)>= 1:
             for num in numbers:
                 if int(num) > 100 and len(num) != 19:

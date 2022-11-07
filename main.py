@@ -32,20 +32,6 @@ async def on_ready():
     print(f'We have logged in as {bot.user}')
 
 
-# @bot.command(
-#     name="Command Test",
-#     description="Testing",
-#     scope=1004907940626579488,
-# )
-# @bot.command(scope=100490794062657948)
-# @interactions.option()
-# @bot.command(
-#     name="my_first_command",
-#     description="This is the first command I made!",
-#     scope=100490794062657948,
-# )       1004907940626579488
-# async def first_command(ctx: interactions.CommandContext, text: str):
-#     await ctx.send(f'Nerd {text}')
 @bot.command()
 async def trivia(ctx):
     url = f"https://the-trivia-api.com/api/questions?limit=1"
@@ -62,9 +48,14 @@ async def trivia(ctx):
     await ctx.send(formatted_text)
 
 @bot.command()
+async def cat_fact(ctx):
+    url = f"https://cat-fact.herokuapp.com/facts"
+    data = requests.get(url)
+    bot_response = json.loads(data.text)
+    await ctx.send(bot_response['affirmation'])
+
+@bot.command()
 async def compliment(ctx):
-    #attachment = msg.attachments[0]
-    #attachment = ctx.message.attachments[0]
     url = f"https://www.affirmations.dev/"
     data = requests.get(url)
     bot_response = json.loads(data.text)
@@ -83,7 +74,6 @@ async def magicball(ctx, *, msg):
 
 @bot.command()
 async def jail(ctx):
-    #attachment = msg.attachments[0]
     attachment = ctx.message.attachments[0]
     url = f"https://api.popcat.xyz/jail?image={attachment.url}"
     data = requests.get(url)
@@ -142,10 +132,9 @@ async def on_message(message):
         if message.content.lower().startswith('/suggest '):
             SUGGESTION_FILE.write(message.content.strip("/suggest "))
         numbers = re.findall(r'\d+', message.content.lower())
-        if numbers is not None:
-            for num in numbers:
-                if int(num) > 100:
-                    await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
+        if len(numbers)!= 1:
+            if int(numbers[1]) > 100:
+                await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):

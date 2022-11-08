@@ -83,6 +83,33 @@ async def compliment(ctx):
     await ctx.send(bot_response['affirmation'])
 
 @bot.command()
+async def insult(ctx):
+    url ="https://evilinsult.com/generate_insult.php"
+    data = requests.get(url)
+    await ctx.send(data.text)
+
+@bot.command()
+async def inspire(ctx):
+    url = "https://api.adviceslip.com/advice"
+    data = requests.get(url)
+    bot_response = json.loads(data.text)
+    await ctx.send(bot_response['slip']['advice'])
+
+@bot.command()
+async def dad(ctx):
+    url = "https://icanhazdadjoke.com/"
+    data = requests.get(url,headers={"Accept": "application/json"})
+    bot_response = json.loads(data.text)
+    await ctx.send(bot_response['joke'])
+
+@bot.command()
+async def deep(ctx):
+    url ="https://api.fisenko.net/v1/quotes/en/random"
+    data = requests.get(url)
+    bot_response = json.loads(data.text)
+    await ctx.send(f'{bot_response["text"].strip(".")} - _{bot_response["author"]["name"]}, probably_.')
+
+@bot.command()
 async def magicball(ctx, *, msg):
     conn = http.client.HTTPSConnection("8ball.delegator.com")
     question = urllib.parse.quote(msg)

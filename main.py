@@ -109,12 +109,27 @@ async def deep(ctx):
     bot_response = json.loads(data.text)
     await ctx.send(f'{bot_response["text"].strip(".")} - _{bot_response["author"]["name"]}, probably_.')
 @bot.command()
-async def trump(ctx):
-    url = "https://api.tronalddump.io/random/quote"
+# async def trump(ctx):
+#     url = "https://api.tronalddump.io/random/quote"
+#     data = requests.get(url)
+#     message = json.loads(data.text)
+#     bot_response = message['value']
+#     await ctx.send(f'{bot_response} - _Dakota Trump_')
+
+@bot.command()
+async def basically(ctx):
+    url = "http://itsthisforthat.com/api.php?text"
     data = requests.get(url)
-    message = json.loads(data.text)
-    bot_response = message['value']
-    await ctx.send(f'{bot_response} - _Dakota Trump_')
+    await ctx.send(data.text)
+
+@bot.command()
+async def boss(ctx):
+    url = "https://corporatebs-generator.sameerkumar.website/"
+    data = requests.get(url)
+    data = json.loads(data.text)
+    await ctx.send(data['phrase'])
+
+
 @bot.command()
 async def magicball(ctx, *, msg):
     conn = http.client.HTTPSConnection("8ball.delegator.com")

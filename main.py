@@ -108,7 +108,7 @@ async def deep(ctx):
     data = requests.get(url)
     bot_response = json.loads(data.text)
     await ctx.send(f'{bot_response["text"].strip(".")} - _{bot_response["author"]["name"]}, probably_.')
-@bot.command()
+#@bot.command()
 # async def trump(ctx):
 #     url = "https://api.tronalddump.io/random/quote"
 #     data = requests.get(url)

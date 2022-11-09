@@ -108,7 +108,13 @@ async def deep(ctx):
     data = requests.get(url)
     bot_response = json.loads(data.text)
     await ctx.send(f'{bot_response["text"].strip(".")} - _{bot_response["author"]["name"]}, probably_.')
-
+@bot.command()
+async def trump(ctx):
+    url = "https://api.tronalddump.io/random/quote"
+    data = requests.get(url)
+    message = json.loads(data.text)
+    bot_response = message['value']
+    await ctx.send(f'{bot_response} - _Dakota Trump_')
 @bot.command()
 async def magicball(ctx, *, msg):
     conn = http.client.HTTPSConnection("8ball.delegator.com")

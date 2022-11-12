@@ -32,7 +32,6 @@ ADD_REGEX = r'\/add (.*)'
 async def on_ready():
     print(f'We have logged in as {bot.user}')
 
-
 @bot.command()
 async def trivia(ctx):
     url = f"https://the-trivia-api.com/api/questions?limit=1"
@@ -179,6 +178,8 @@ async def on_message(message):
                 return
             await message.add_reaction("😍")
             await message.add_reaction("❤")
+        if message.channel != bot.get_channel(1004907941322821725) or message.channel != bot.get_channel(1035372306928779405):
+            return
         if message.content.lower().startswith("/playlist"):
             with open("links.txt", "w") as file:
                 channel = bot.get_guild(1004907940626579488).get_channel(1032111758724304966)
@@ -187,8 +188,6 @@ async def on_message(message):
                     if link is not None:
                         file.write(link.group(1) + "\n")
                 return
-        if message.channel == bot.get_channel(12324234183172) or message.channel == bot.get_channel(1011778775052206112):
-            return
         if message.author == bot.user:
             return
         if message.author.id == 132323816176091136 or message.author.id == 1004897999366922311:
@@ -203,10 +202,11 @@ async def on_message(message):
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)
-        if len(numbers)>= 1:
+        if len(numbers)>= 1000000:
             for num in numbers:
                 if int(num) > 100 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
+                    return
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):

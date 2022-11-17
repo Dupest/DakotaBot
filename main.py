@@ -178,7 +178,7 @@ async def on_message(message):
                 return
             await message.add_reaction("😍")
             await message.add_reaction("❤")
-        if message.channel != bot.get_channel(1004907941322821725) or message.channel != bot.get_channel(1035372306928779405):
+        if message.channel.id != 1004907941322821725 and message.channel.id != 1035372306928779405 and message.channel.id != 1012129620964945920:
             return
         if message.content.lower().startswith("/playlist"):
             with open("links.txt", "w") as file:
@@ -202,9 +202,9 @@ async def on_message(message):
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)
-        if len(numbers)>= 1000000:
+        if len(numbers)>= 100:
             for num in numbers:
-                if int(num) > 100 and len(num) != 19:
+                if int(num) > 1000000 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
         if random.randint(1, 100) == 1:

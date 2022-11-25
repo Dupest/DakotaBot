@@ -231,7 +231,7 @@ async def on_message(message):
             await message.channel.send(f'{message.author.mention} {insult}')
     await bot.process_commands(message)
 
-@bot.command
+@bot.command()
 async def spit(ctx, name, arg):
     """
     !you just got spat on, ew

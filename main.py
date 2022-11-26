@@ -210,11 +210,13 @@ async def on_message(message):
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
-                coin_flip = random.randint(0, 2)
-                if coin_flip == 0:
+                dice_roll = random.randint(0, 3)
+                if dice_roll == 0:
                     await message.channel.send(f'<@278393257686335488> Tearful 10 page apology for Dakota. Now!')
-                elif coin_flip == 1:
+                elif dice_roll == 1:
                     await message.channel.send(f'https://www.youtube.com/watch?v=c4KNd0Yv6d0')
+                elif dice_roll == 2:
+                        await message.channel.send(f'{message.author.mention} I\'m going to spit on you. AAACHK-PTU! That\'s what you get|')
                 else:
                     await message.channel.send(f'<@763250505182609440> What up, it\'s yo boy skinny penis')
                 return
@@ -231,12 +233,6 @@ async def on_message(message):
             await message.channel.send(f'{message.author.mention} {insult}')
     await bot.process_commands(message)
 
-@bot.command()
-async def spit(ctx, name,*, arg):
-    """
-    !you just got spat on, ew
-    """
-    await ctx.send(f'@{name} {arg}!')
 
 
 # bot.start()

@@ -210,7 +210,7 @@ async def on_message(message):
         if random.randint(1, 100) == 1:
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
-                dice_roll = random.randint(0, 1, 2, 3)
+                dice_roll = random.randint(0, 3)
                 if dice_roll == 0:
                     await message.channel.send(f'<@278393257686335488> Tearful 10 page apology for Dakota. Now!')
                 elif dice_roll == 1:

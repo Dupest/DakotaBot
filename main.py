@@ -15,7 +15,7 @@ from discord.ext import commands
 special_phrases = open("special_phrases.txt", encoding='latin-1').readlines()
 intents = discord.Intents.default()
 intents.message_content = True
-command_prefix = 'DakotaSlave '
+command_prefix = '!'
 bork = "the industrial revolution and its consequences have been a disaster for the human race"
 # bot.= discord.bot.intents=intents)
 bot = commands.Bot(command_prefix=command_prefix, intents=intents)
@@ -231,8 +231,8 @@ async def on_message(message):
             await message.channel.send(f'{message.author.mention} {insult}')
     await bot.process_commands(message)
 
-@bot.command
-async def spit(ctx, name, arg):
+@bot.command()
+async def spit(ctx, name,*, arg):
     """
     !you just got spat on, ew
     """

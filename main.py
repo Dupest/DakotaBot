@@ -233,6 +233,8 @@ async def on_message(message):
             await message.channel.send(f'{message.author.mention} {insult}')
     await bot.process_commands(message)
 
+
+
 # bot.start()
 
 bot.run(open("../DakotaBot/secrets").readline())

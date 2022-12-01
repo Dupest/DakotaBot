@@ -207,7 +207,7 @@ async def on_message(message):
                 if int(num) > 1000000 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
-        if random.randint(1, 100) == 1:
+        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or str(bot.user).split("#")):
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
                 dice_roll = random.randint(0, 3)
@@ -225,12 +225,12 @@ async def on_message(message):
             choice = random.randint(0, len(compliments) - 1)
             compliment = compliments[choice].strip("\n")
             await message.channel.send(f'{message.author.mention} {compliment}')
-        elif (message.content.lower().startswith('dakota') or str(bot.user).split("#")[
-            0].lower() in message.content.lower() or "dakotaslave" in message.content.lower() or bot.user.mentioned_in(
-            message)) and "sad" not in message.content.lower():
-            choice = random.randint(0, len(insults) - 1)
-            insult = insults[choice].strip("\n")
-            await message.channel.send(f'{message.author.mention} {insult}')
+        # elif (message.content.lower().startswith('dakota') or str(bot.user).split("#")[
+        #     0].lower() in message.content.lower() or "dakotaslave" in message.content.lower() or bot.user.mentioned_in(
+        #     message)) and "sad" not in message.content.lower():
+        #     choice = random.randint(0, len(insults) - 1)
+        #     insult = insults[choice].strip("\n")
+        #     await message.channel.send(f'{message.author.mention} {insult}')
     await bot.process_commands(message)
 
 

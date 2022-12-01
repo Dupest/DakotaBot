@@ -178,8 +178,8 @@ async def on_message(message):
                 return
             await message.add_reaction("😍")
             await message.add_reaction("❤")
-        if message.channel.id != 1004907941322821725 and message.channel.id != 1035372306928779405 and message.channel.id != 1012129620964945920:
-            return
+        # if message.channel.id != 1004907941322821725 and message.channel.id != 1035372306928779405 and message.channel.id != 1012129620964945920:
+        #     return
         if message.content.lower().startswith("/playlist"):
             with open("links.txt", "w") as file:
                 channel = bot.get_guild(1004907940626579488).get_channel(1032111758724304966)
@@ -207,7 +207,7 @@ async def on_message(message):
                 if int(num) > 1000000 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
-        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or str(bot.user).split("#")):
+        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#"))):
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
                 dice_roll = random.randint(0, 3)

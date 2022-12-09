@@ -1,4 +1,3 @@
-# This example requires the 'message_content' intent.
 import http.client
 import json
 import os
@@ -15,7 +14,6 @@ from discord.app_commands import commands
 #from revChatGPT.revChatGPT import Chatbot
 from discord.ext import commands
 import mariadb
-special_phrases = open("special_phrases.txt", encoding='latin-1').readlines()
 intents = discord.Intents.default()
 intents.message_content = True
 config = json.load(open("config.json"))
@@ -26,9 +24,7 @@ bork = "the industrial revolution and its consequences have been a disaster for 
 # bot.= discord.bot.intents=intents)
 bot = commands.Bot(command_prefix=command_prefix, intents=intents)
 LINKS_CHANNEL = 1032111758724304966
-insults = open("insults", encoding='latin-1').readlines()
 compliments = open("compliments", encoding='latin-1').readlines()
-SUGGESTION_FILE = open("suggestions.txt", "a")
 # LINK_FILE = open("links.txt", "w")
 LINK_REGEX = r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))'
 ADD_REGEX = r'\/add (.*)'
@@ -219,7 +215,10 @@ async def on_message(message):
             # elif message.content.lower().startswith("mangle") or message.content.lower().startswith("rainbow"):
             #     await message.channel.send(f'<@278393257686335488> 10 page apology for Dakota. Now!')
         if message.content.lower().startswith('/suggest '):
-            SUGGESTION_FILE.write(message.content.strip("/suggest "))
+            cursor = CONN.cursor()
+            cursor.execute(f'INSERT INTO `suggested_quotes` (message, username, time) VALUES (%s,%s,%s)',
+                           (message.content.strip("/suggest "), message.content.author, datetime.utcnow()))
+            CONN.commit()
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)

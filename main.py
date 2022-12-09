@@ -10,11 +10,15 @@ import requests
 from urllib.parse import quote
 import interactions
 from discord.app_commands import commands
+from revChatGPT.revChatGPT import Chatbot
 from discord.ext import commands
-
+import mariadb
 special_phrases = open("special_phrases.txt", encoding='latin-1').readlines()
 intents = discord.Intents.default()
 intents.message_content = True
+config = json.load(open("config.json"))
+db = json.load(open("mariadb.json"))
+chatbot = Chatbot(config, conversation_id=None)
 command_prefix = '!'
 bork = "the industrial revolution and its consequences have been a disaster for the human race"
 # bot.= discord.bot.intents=intents)
@@ -26,10 +30,18 @@ SUGGESTION_FILE = open("suggestions.txt", "a")
 # LINK_FILE = open("links.txt", "w")
 LINK_REGEX = r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))'
 ADD_REGEX = r'\/add (.*)'
-
+CONN = None
 
 @bot.event
 async def on_ready():
+    global CONN
+    CONN = mariadb.connect(
+                    user= db['user'],
+                    password= db['password'],
+                    host=db['localhost'],
+                    port=db['port'],
+                    database=db['database']
+    )
     print(f'We have logged in as {bot.user}')
 
 @bot.command()
@@ -188,12 +200,18 @@ async def on_message(message):
                     if link is not None:
                         file.write(link.group(1) + "\n")
                 return
+        if message.author.id == 278393257686335488:
+            with open("mangle_lines.txt", "a") as infile:
+                infile.write(message.content+"\n")
         if message.author == bot.user:
             return
         if message.author.id == 132323816176091136 or message.author.id == 1004897999366922311:
             if message.content.lower().startswith("/add "):
-                with open("special_phrases.txt", "a") as file:
-                    file.write(message.content.strip("/add ") + "\n")
+                #with open("special_phrases.txt", "a") as file:
+                    #file.write(message.content.strip("/add ") + "\n")
+                CONN.cursor()
+                cursor.execute(f'INSERT INTO `dakota_phrases` (message) VALUES (%s)', (line,))
+                CONN.commit()
                 await message.channel.send(f'Added "{message.content.strip("/add ")}" to the list.')
             # elif message.content.lower().startswith("mangle") or message.content.lower().startswith("rainbow"):
             #     await message.channel.send(f'<@278393257686335488> 10 page apology for Dakota. Now!')
@@ -207,7 +225,7 @@ async def on_message(message):
                 if int(num) > 1000000 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
-        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#"))):
+        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#")[0])):
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
                 dice_roll = random.randint(0, 3)
@@ -216,7 +234,7 @@ async def on_message(message):
                 elif dice_roll == 1:
                     await message.channel.send(f'https://www.youtube.com/watch?v=c4KNd0Yv6d0')
                 elif dice_roll == 2:
-                        await message.channel.send(f'{message.author.mention} I\'m going to spit on you. AAACHK-PTU! That\'s what you get|')
+                        await message.channel.send(f'{message.author.mention} I\'m going to spit on you. AAACHK-PTU! That\'s what you get')
                 else:
                     await message.channel.send(f'<@763250505182609440> What up, it\'s yo boy skinny penis')
                 return

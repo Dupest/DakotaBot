@@ -1,1 +1,5 @@
 secrets
+config.json
+mariadb.json
+twitch.json
+.gitignore

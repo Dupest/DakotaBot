@@ -219,7 +219,6 @@ async def on_message(message):
             cursor.execute(f'INSERT INTO `suggested_quotes` (message, username, time) VALUES (%s,%s,%s)',
                            (message.content.strip("/suggest "), message.content.author, datetime.utcnow()))
             CONN.commit()
-            await message.channel.send(f'Added "{message.content.strip("/suggest ")}" to the list.')
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)

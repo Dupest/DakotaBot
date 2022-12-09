@@ -200,7 +200,7 @@ async def on_message(message):
                 return
         if message.author.id == 278393257686335488:
             cursor = CONN.cursor()
-            cursor.execute(f'INSERT INTO `mangle_comments` (message, time) VALUES (%s, %s)', (message.content.strip("/add "),datetime.utcnow()))
+            cursor.execute(f'INSERT INTO `mangle_comments` (message, time) VALUES (%s, %s)', (message.content, datetime.utcnow()))
             CONN.commit()
         if message.author == bot.user:
             return

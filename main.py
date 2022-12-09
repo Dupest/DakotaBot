@@ -228,7 +228,7 @@ async def on_message(message):
         if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#")[0])):
             cursor = CONN.cursor()
             cursor.execute(f'SELECT `message` FROM dakota_phrases')
-            CONN.commit()
+            #CONN.commit()
             special_phrases = list(cursor.fetchall())
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
@@ -242,7 +242,8 @@ async def on_message(message):
                 else:
                     await message.channel.send(f'<@763250505182609440> What up, it\'s yo boy skinny penis')
                 return
-            await message.channel.send(f'{message.author.mention} {special_phrases[index]}')
+            picked_phrase = special_phrases[index][0]
+            await message.channel.send(f'{message.author.mention} {picked_phrase}')
         elif "am sad" in message.content.lower() or "is sad" in message.content.lower() or "i\'m sad" in message.content.lower():
             choice = random.randint(0, len(compliments) - 1)
             compliment = compliments[choice].strip("\n")

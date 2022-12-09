@@ -217,7 +217,7 @@ async def on_message(message):
         if message.content.lower().startswith('/suggest '):
             cursor = CONN.cursor()
             cursor.execute(f'INSERT INTO `suggested_quotes` (message, username, time) VALUES (%s,%s,%s)',
-                           (message.content.strip("/suggest "), message.content.author, datetime.utcnow()))
+                           (message.content.strip("/suggest "), message.author, datetime.utcnow()))
             CONN.commit()
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)

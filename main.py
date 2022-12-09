@@ -5,6 +5,8 @@ import os
 import random
 import re
 import urllib
+from datetime import datetime
+
 import discord
 import requests
 from urllib.parse import quote
@@ -200,9 +202,10 @@ async def on_message(message):
                     if link is not None:
                         file.write(link.group(1) + "\n")
                 return
-        if message.author.id == 278393257686335488:
-            with open("mangle_lines.txt", "a") as infile:
-                infile.write(message.content+"\n")
+        if message.author.id == 132323816176091136:
+            cursor = CONN.cursor()
+            cursor.execute(f'INSERT INTO `mangle_comments` (message, time) VALUES (%s, %s)', (message.content.strip("/add "),datetime.utcnow()))
+            CONN.commit()
         if message.author == bot.user:
             return
         if message.author.id == 132323816176091136 or message.author.id == 1004897999366922311:

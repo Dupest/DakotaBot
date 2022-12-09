@@ -226,6 +226,10 @@ async def on_message(message):
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
         if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#")[0])):
+            cursor = CONN.cursor()
+            cursor.execute(f'SELECT `message` FROM dakota_phrases')
+            CONN.commit()
+            special_phrases = list(cursor.fetchall())
             index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
                 dice_roll = random.randint(0, 3)

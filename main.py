@@ -10,7 +10,7 @@ import requests
 from urllib.parse import quote
 import interactions
 from discord.app_commands import commands
-from revChatGPT.revChatGPT import Chatbot
+#from revChatGPT.revChatGPT import Chatbot
 from discord.ext import commands
 import mariadb
 special_phrases = open("special_phrases.txt", encoding='latin-1').readlines()
@@ -18,7 +18,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 config = json.load(open("config.json"))
 db = json.load(open("mariadb.json"))
-chatbot = Chatbot(config, conversation_id=None)
+#chatbot = Chatbot(config, conversation_id=None)
 command_prefix = '!'
 bork = "the industrial revolution and its consequences have been a disaster for the human race"
 # bot.= discord.bot.intents=intents)
@@ -38,7 +38,7 @@ async def on_ready():
     CONN = mariadb.connect(
                     user= db['user'],
                     password= db['password'],
-                    host=db['localhost'],
+                    host=db['host'],
                     port=db['port'],
                     database=db['database']
     )
@@ -209,8 +209,8 @@ async def on_message(message):
             if message.content.lower().startswith("/add "):
                 #with open("special_phrases.txt", "a") as file:
                     #file.write(message.content.strip("/add ") + "\n")
-                CONN.cursor()
-                cursor.execute(f'INSERT INTO `dakota_phrases` (message) VALUES (%s)', (line,))
+                cursor = CONN.cursor()
+                cursor.execute(f'INSERT INTO `dakota_phrases` (message) VALUES (%s)', (message.content.strip("/add "),))
                 CONN.commit()
                 await message.channel.send(f'Added "{message.content.strip("/add ")}" to the list.')
             # elif message.content.lower().startswith("mangle") or message.content.lower().startswith("rainbow"):

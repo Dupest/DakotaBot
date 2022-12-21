@@ -9,11 +9,10 @@ import logging
 import discord
 import requests
 from urllib.parse import quote
-import interactions
-from discord.app_commands import commands
-#from revChatGPT.revChatGPT import Chatbot
 from discord.ext import commands
 import mariadb
+
+
 intents = discord.Intents.default()
 intents.message_content = True
 config = json.load(open("config.json"))
@@ -38,6 +37,7 @@ def db_connection():
                     port=db['port'],
                     database=db['database']
     )
+    logging.info("Connected to the database!")
 @bot.event
 async def on_resumed():
     try:
@@ -149,14 +149,18 @@ async def boss(ctx):
 
 
 @bot.command()
-async def magicball(ctx, *, msg):
-    conn = http.client.HTTPSConnection("8ball.delegator.com")
-    question = urllib.parse.quote(msg)
-    conn.request('GET', '/magic/JSON/' + question)
-    response = conn.getresponse()
-    message = json.loads(response.read())
-    bot_response = message['magic']['answer']
-    await ctx.send(bot_response)
+async def ask(ctx, *, msg):
+    # conn = http.client.HTTPSConnection("eightballapi.com/api")
+    # question = urllib.parse.quote(msg)
+    # conn.request('GET', '/magic/JSON/' + question)
+    # response = conn.getresponse()
+    # message = json.loads(response.read())
+    # bot_response = message['magic']['answer']
+    # await ctx.send(bot_response)
+    url = "eightballapi.com/api"
+    data = requests.get(url)
+    data = json.loads(data.text)
+    await ctx.send(data['reading'])
 
 
 @bot.command()
@@ -269,7 +273,8 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
+if __name__ == '__main__':
+    bot.run(open("../DakotaBot/secrets").readline())
 
-# bot.start()
 
-bot.run(open("../DakotaBot/secrets").readline())
+

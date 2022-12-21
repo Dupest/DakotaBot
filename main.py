@@ -5,7 +5,7 @@ import random
 import re
 import urllib
 from datetime import datetime
-
+import logging
 import discord
 import requests
 from urllib.parse import quote
@@ -29,9 +29,7 @@ compliments = open("compliments", encoding='latin-1').readlines()
 LINK_REGEX = r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))'
 ADD_REGEX = r'\/add (.*)'
 CONN = None
-
-@bot.event
-async def on_ready():
+def db_connection():
     global CONN
     CONN = mariadb.connect(
                     user= db['user'],
@@ -40,6 +38,17 @@ async def on_ready():
                     port=db['port'],
                     database=db['database']
     )
+@bot.event
+async def on_resumed():
+    try:
+        logging.info("Refreshing the database connection")
+        CONN.reconnect()
+    except:
+        logging.info("Could not use reconnect, recreating the connection")
+        db_connection()
+@bot.event
+async def on_ready():
+    db_connection()
     print(f'We have logged in as {bot.user}')
 
 @bot.command()
@@ -228,7 +237,7 @@ async def on_message(message):
                 if int(num) > 1000000 and len(num) != 19:
                     await message.channel.send(f'https://www.youtube.com/watch?v=WFoC3TR5rzI')
                     return
-        if random.randint(1, 100) == 1 or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#")[0])):
+        if random.randint(1, 100) == 1 or "dakotaslave" in message.content.lower() or (message.content.lower().startswith('dakota') or message.content.lower().startswith(str(bot.user).split("#")[0])):
             cursor = CONN.cursor()
             cursor.execute(f'SELECT `message` FROM dakota_phrases')
             #CONN.commit()

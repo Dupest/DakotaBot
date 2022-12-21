@@ -200,7 +200,7 @@ async def simp(ctx):
     CONN.commit()
     cursor.execute('select `count` from `counter_table` where id=1')
     count = cursor.fetchone()
-    await ctx.send(f"{count[0]-1} people have simped for Dakota. You're the {count[0]}. Simp.")
+    await ctx.send(f"{count[0]-1} people have simped for Dakota. You're the {count[0]}th. Simp.")
 
 @bot.event
 async def on_message(message):

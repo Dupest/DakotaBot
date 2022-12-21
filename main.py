@@ -231,9 +231,9 @@ async def on_message(message):
                 #with open("special_phrases.txt", "a") as file:
                     #file.write(message.content.strip("/add ") + "\n")
                 cursor = CONN.cursor()
-                cursor.execute(f'INSERT INTO `dakota_phrases` (message) VALUES (%s)', (message.content.lstrip("/add "),))
+                cursor.execute(f'INSERT INTO `dakota_phrases` (message) VALUES (%s)', (message.content.replace("/add ", ""),))
                 CONN.commit()
-                await message.channel.send(f'Added "{message.content.lstrip("/add ")}" to the list.')
+                await message.channel.send(f'Added "{message.content.replace("/add ", "")}" to the list.')
             # elif message.content.lower().startswith("mangle") or message.content.lower().startswith("rainbow"):
             #     await message.channel.send(f'<@278393257686335488> 10 page apology for Dakota. Now!')
         if message.content.lower().startswith('/suggest '):

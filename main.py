@@ -157,7 +157,7 @@ async def ask(ctx, *, msg):
     # message = json.loads(response.read())
     # bot_response = message['magic']['answer']
     # await ctx.send(bot_response)
-    url = "eightballapi.com/api"
+    url = "https://www.eightballapi.com/api"
     data = requests.get(url)
     data = json.loads(data.text)
     await ctx.send(data['reading'])

@@ -193,6 +193,13 @@ async def links(ctx):
                 file.write(link.group(1) + "\n")
     await ctx.send("Ran!")
 
+@bot.command()
+async def simp(ctx):
+    cursor = CONN.cursor()
+    cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=1')
+    CONN.commit()
+    count = cursor.execute('select `count` from `counter_table` where id=1')
+    await ctx.send(f"{count-1} people have simped for Dakota. You're the {count}. Simp.")
 
 @bot.event
 async def on_message(message):

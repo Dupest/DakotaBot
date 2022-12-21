@@ -12,7 +12,6 @@ from urllib.parse import quote
 from discord.ext import commands
 import mariadb
 
-
 intents = discord.Intents.default()
 intents.message_content = True
 config = json.load(open("config.json"))
@@ -48,6 +47,8 @@ async def on_resumed():
         db_connection()
 @bot.event
 async def on_ready():
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.INFO)
     db_connection()
     print(f'We have logged in as {bot.user}')
 

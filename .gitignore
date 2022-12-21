@@ -3,3 +3,4 @@ config.json
 mariadb.json
 twitch.json
 .gitignore
+config.json

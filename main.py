@@ -192,7 +192,7 @@ async def links(ctx):
             if link is not None:
                 file.write(link.group(1) + "\n")
     await ctx.send("Ran!")
-#LOL
+
 @bot.command()
 async def simp(ctx):
     cursor = CONN.cursor()

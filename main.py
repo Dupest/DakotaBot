@@ -27,6 +27,7 @@ compliments = open("compliments", encoding='latin-1').readlines()
 LINK_REGEX = r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))'
 ADD_REGEX = r'\/add (.*)'
 CONN = None
+ALLOWED_CHANNELS = [1004907941322821725, 1035372306928779405, 1012129620964945920]
 def db_connection():
     global CONN
     CONN = mariadb.connect(
@@ -210,8 +211,8 @@ async def on_message(message):
                 return
             await message.add_reaction("😍")
             await message.add_reaction("❤")
-        # if message.channel.id != 1004907941322821725 and message.channel.id != 1035372306928779405 and message.channel.id != 1012129620964945920:
-        #     return
+        if message.channel.id not in ALLOWED_CHANNELS:
+            return
         if message.content.lower().startswith("/playlist"):
             with open("links.txt", "w") as file:
                 channel = bot.get_guild(1004907940626579488).get_channel(1032111758724304966)

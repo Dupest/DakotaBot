@@ -14,6 +14,7 @@ import mariadb
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.members = True
 config = json.load(open("config.json"))
 db = json.load(open("mariadb.json"))
 #chatbot = Chatbot(config, conversation_id=None)
@@ -46,6 +47,9 @@ async def on_resumed():
     except:
         logging.info("Could not use reconnect, recreating the connection")
         db_connection()
+@bot.event
+async def member_join(member):
+    await bot.get_guild(1004907940626579488).get_channel(1004907941322821725).send("!simp")
 @bot.event
 async def on_ready():
     logging.basicConfig()

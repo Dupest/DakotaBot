@@ -264,7 +264,7 @@ async def on_message(message):
             if index == len(special_phrases):
                 dice_roll = random.randint(0, 3)
                 if dice_roll == 0:
-                    await message.channel.send(f'<@278393257686335488> Tearful 10 page apology for Dakota. Now!')
+                    await message.channel.send(f'Invest in NFTs bro. It\'s the future')
                 elif dice_roll == 1:
                     await message.channel.send(f'https://www.youtube.com/watch?v=c4KNd0Yv6d0')
                 elif dice_roll == 2:

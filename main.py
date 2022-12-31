@@ -260,11 +260,9 @@ async def on_message(message):
             cursor.execute(f'SELECT `message` FROM dakota_phrases')
             #CONN.commit()
             special_phrases = list(cursor.fetchall())
-            #index = random.randint(0, len(special_phrases))
-            index = len(special_phrases)
+            index = random.randint(0, len(special_phrases))
             if index == len(special_phrases):
-                #dice_roll = random.randint(0, 3)
-                dice_roll = 0
+                dice_roll = random.randint(0, 3)
                 if dice_roll == 0:
                     await message.channel.send(f'<@418230537250144257>')
                     await message.channel.send(file=discord.File('boomer.jpg'))

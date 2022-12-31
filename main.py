@@ -266,7 +266,7 @@ async def on_message(message):
                 #dice_roll = random.randint(0, 3)
                 dice_roll = 0
                 if dice_roll == 0:
-                    await message.channel.send(f'Invest in NFTs bro. It\'s the future')
+                    await message.channel.send(f'<@418230537250144257>')
                     await message.channel.send(file=discord.File('boomer.jpg'))
                 elif dice_roll == 1:
                     await message.channel.send(f'https://www.youtube.com/watch?v=c4KNd0Yv6d0')

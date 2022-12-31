@@ -282,6 +282,7 @@ async def on_message(message):
         # One in a million chance that a user's comment wins something special
         elif random.randint(1,1000000) == 1:
             await message.channel.send(f'{message.author.mention} you just won a month of spicy membership :eyes_shake')
+            await message.channel.send(f'<@1004897999366922311> <@132323816176091136>')
         # elif (message.content.lower().startswith('dakota') or str(bot.user).split("#")[
         #     0].lower() in message.content.lower() or "dakotaslave" in message.content.lower() or bot.user.mentioned_in(
         #     message)) and "sad" not in message.content.lower():

@@ -178,10 +178,11 @@ async def delete_one(ctx):
     cursor = CONN.cursor()
     cursor.execute(f"select message from `dakota_phrases` where id={message_id}")
     message = cursor.fetchone()
+    del_message, empty = message
     #pdb.set_trace()
     cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
     CONN.commit()
-    await ctx.send(f'"{message}" was removed from the list.')
+    await ctx.send(f'"{del_message}" was removed from the list.')
 
 @bot.command()
 async def list_all(ctx):

@@ -246,9 +246,9 @@ async def on_message(message):
         if message.content.lower().startswith('/suggest '):
             cursor = CONN.cursor()
             cursor.execute(f'INSERT INTO `suggested_quotes` (message, username, time) VALUES (%s,%s,%s)',
-                           (message.content.replace("/suggest "), message.author.name, datetime.utcnow()))
+                           (message.content.replace("/suggest ", ""), message.author.name, datetime.utcnow()))
             CONN.commit()
-            await message.channel.send(f'Added "{message.content.replace("/suggest ")}" to the list.')
+            await message.channel.send(f'Added "{message.content.replace("/suggest ", "")}" to the list.')
         stripped_content = re.sub(r'<[^>]+>', "", message.content.lower())
         stripped_content = re.sub(LINK_REGEX, "", stripped_content)
         numbers = re.findall(r'\d+', stripped_content)

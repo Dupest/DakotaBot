@@ -160,7 +160,7 @@ async def boss(ctx):
 @bot.command()
 async def deletelast(ctx):
     cursor = CONN.cursor()
-    cursor.execute("select `*` from `dakota_phrases`")
+    cursor.execute("select * from `dakota_phrases`")
     messages = cursor.fetchall()
     print(len(messages))
     print(messages)

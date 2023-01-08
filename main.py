@@ -46,7 +46,7 @@ def db_connection():
 async def on_resumed():
     try:
         channel = bot.get_guild(1004907940626579488).get_channel(1004907941322821725)
-        await channel.send("!simp")
+        await channel.send("I'm a simp for Dakota")
         logging.info("Refreshing the database connection")
         CONN.reconnect()
     except:

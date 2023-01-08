@@ -160,7 +160,7 @@ async def boss(ctx):
 @bot.command()
 async def deletelast(ctx):
     cursor = CONN.cursor()
-    last_id = cursor.execute(f'from special_phrases last_insert_id();')
+    last_id = cursor.execute(f'select max(id) from dakota_phrases')
     cursor.execute(f'delete from `dakota_phrases` where id={last_id}')
     CONN.commit()
 

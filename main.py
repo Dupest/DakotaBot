@@ -169,7 +169,7 @@ async def deletelast(ctx):
     await ctx.send(f'"{message}" was removed from the list.')
 @bot.command()
 async def delete_one(ctx):
-    print(ctx.message)
+    print(ctx.message.content)
     try:
         message_id = int(ctx.message)
     except:

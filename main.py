@@ -53,7 +53,7 @@ async def on_resumed():
         logging.info("Could not use reconnect, recreating the connection")
         db_connection()
 @bot.event
-async def member_join(member):
+async def on_member_join(member):
     cursor = CONN.cursor()
     cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=1')
     CONN.commit()

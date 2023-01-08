@@ -52,9 +52,16 @@ async def on_resumed():
     except:
         logging.info("Could not use reconnect, recreating the connection")
         db_connection()
-# @bot.event
-# async def member_join(member):
-#     await bot.get_guild(1004907940626579488).get_channel(1004907941322821725).send("!simp")
+@bot.event
+async def member_join(member):
+    cursor = CONN.cursor()
+    cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=1')
+    CONN.commit()
+    cursor.execute('select `count` from `counter_table` where id=1')
+    count = cursor.fetchone()
+    await bot.get_guild(1004907940626579488).get_channel(1004907941322821725).send(f"{count[0]-1} \
+                people have simped for Dakota. {member.mention} is the {count[0]}th.")
+
 @bot.event
 async def on_ready():
     logging.basicConfig()

@@ -204,6 +204,16 @@ async def list_all(ctx):
     await ctx.send(f'Current Phrases:\n{print_out}')
 
 @bot.command()
+async def current_suggestions(ctx):
+    cursor = CONN.cursor()
+    cursor.execute("select * from `suggested_quotes`")
+    messages = cursor.fetchall()
+    print_out = ""
+    for message in messages:
+        message_id, ind_message = message
+        print_out += f'{message_id}: {ind_message}\n'
+    await ctx.send(f'Current Phrases:\n{print_out}')
+@bot.command()
 async def ask(ctx, *, msg):
     # conn = http.client.HTTPSConnection("eightballapi.com/api")
     # question = urllib.parse.quote(msg)

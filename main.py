@@ -3,7 +3,7 @@ import json
 import os
 import random
 import re
-import urllib
+import pdb
 from datetime import datetime
 import logging
 import discord
@@ -160,7 +160,8 @@ async def boss(ctx):
 @bot.command()
 async def deletelast(ctx):
     cursor = CONN.cursor()
-    last_id = cursor.execute(f'select max(id) from dakota_phrases')
+    last_id = cursor.lastrowid # execute(f'select max(id) from dakota_phrases')
+    #pdb.set_trace()
     cursor.execute(f'delete from `dakota_phrases` where id={last_id}')
     CONN.commit()
 

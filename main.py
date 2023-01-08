@@ -190,7 +190,7 @@ async def list_all(ctx):
     print_out = ""
     for message in messages:
         message_id, ind_message = message
-        print_out += f'{message_id}: {message}\n'
+        print_out += f'{message_id}: {ind_message}\n'
     await ctx.send(f'Current Phrases:\n{print_out}')
 
 @bot.command()

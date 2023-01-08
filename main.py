@@ -178,7 +178,7 @@ async def delete_one(ctx):
     cursor = CONN.cursor()
     cursor.execute(f"select message from `dakota_phrases` where id={message_id}")
     message = cursor.fetchone()
-    del_message, empty = message
+    empty, del_message = message
     #pdb.set_trace()
     cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
     CONN.commit()

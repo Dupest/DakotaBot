@@ -14,7 +14,7 @@ import mariadb
 
 intents = discord.Intents.default()
 intents.message_content = True
-#intents.members = True
+intents.members = True
 config = json.load(open("config.json"))
 db = json.load(open("mariadb.json"))
 #chatbot = Chatbot(config, conversation_id=None)

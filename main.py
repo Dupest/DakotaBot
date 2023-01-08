@@ -184,7 +184,7 @@ async def delete_one(ctx):
         message = cursor.fetchone()
         if message is None:
             await ctx.send("Not a valid index! Please use !list_all and use an exsting one")
-        del_message, empty = message
+        del_message, = message
         #pdb.set_trace()
         cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
         CONN.commit()

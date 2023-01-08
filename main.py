@@ -160,7 +160,8 @@ async def boss(ctx):
 @bot.command()
 async def deletelast(ctx):
     cursor = CONN.cursor()
-    messages = cursor.execute("select `message` from `dakota_phrases`")
+    cursor.execute("select `message` from `dakota_phrases`")
+    messages = cursor.fetchall()
     print(len(messages))
     print(messages)
     # last_id = cursor.lastrowid # execute(f'select max(id) from dakota_phrases')

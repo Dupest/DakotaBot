@@ -162,8 +162,7 @@ async def deletelast(ctx):
     cursor = CONN.cursor()
     cursor.execute("select * from `dakota_phrases`")
     messages = cursor.fetchall()
-    last_message = messages[-1].lstrip("(").rstrip(")")
-    message_id, message = last_message.split(",")
+    message_id, message = messages[-1]
     #pdb.set_trace()
     cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
     CONN.commit()

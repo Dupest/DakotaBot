@@ -210,8 +210,8 @@ async def current_suggestions(ctx):
     messages = cursor.fetchall()
     print_out = ""
     for message in messages:
-        message_id, ind_message = message
-        print_out += f'{message_id}: {ind_message}\n'
+        message_id, ind_message, username, time = message
+        print_out += f'{message_id}: {username} suggested: {ind_message}\n'
     await ctx.send(f'Current Phrases:\n{print_out}')
 @bot.command()
 async def ask(ctx, *, msg):

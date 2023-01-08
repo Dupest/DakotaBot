@@ -169,9 +169,9 @@ async def deletelast(ctx):
     await ctx.send(f'"{message}" was removed from the list.')
 @bot.command()
 async def delete_one(ctx):
-    print(ctx.message.content)
+    print(ctx.message.replace(f'{command_prefix}delete_one', ""))
     try:
-        message_id = int(ctx.message)
+        message_id = int(ctx.message.replace(f'{command_prefix}delete_one', ""))
     except:
         await ctx.send("Not a valid number!")
         return

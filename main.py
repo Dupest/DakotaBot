@@ -159,30 +159,38 @@ async def boss(ctx):
     await ctx.send(data['phrase'])
 @bot.command()
 async def deletelast(ctx):
-    cursor = CONN.cursor()
-    cursor.execute("select * from `dakota_phrases`")
-    messages = cursor.fetchall()
-    message_id, message = messages[-1]
-    #pdb.set_trace()
-    cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
-    CONN.commit()
-    await ctx.send(f'"{message}" was removed from the list.')
+    if ctx.author.id in GOD_USERS:
+        cursor = CONN.cursor()
+        cursor.execute("select * from `dakota_phrases`")
+        messages = cursor.fetchall()
+        message_id, message = messages[-1]
+        #pdb.set_trace()
+        cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
+        CONN.commit()
+        await ctx.send(f'"{message}" was removed from the list.')
+    else:
+        await ctx.send("Haha, thanks for trying.")
 @bot.command()
 async def delete_one(ctx):
-    print(ctx.message.content.replace(f'{command_prefix}delete_one', ""))
-    try:
-        message_id = int(ctx.message.content.replace(f'{command_prefix}delete_one', ""))
-    except:
-        await ctx.send("Not a valid number!")
-        return
-    cursor = CONN.cursor()
-    cursor.execute(f"select message from `dakota_phrases` where id={message_id}")
-    message = cursor.fetchone()
-    empty, del_message = message
-    #pdb.set_trace()
-    cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
-    CONN.commit()
-    await ctx.send(f'"{del_message}" was removed from the list.')
+    if ctx.author.id in GOD_USERS:
+        print(ctx.message.content.replace(f'{command_prefix}delete_one', ""))
+        try:
+            message_id = int(ctx.message.content.replace(f'{command_prefix}delete_one', ""))
+        except:
+            await ctx.send("Not a valid number!")
+            return
+        cursor = CONN.cursor()
+        cursor.execute(f"select message from `dakota_phrases` where id={message_id}")
+        message = cursor.fetchone()
+        if message is None:
+            await ctx.send("Not a valid index! Please use !list_all and use an exsting one")
+        del_message, empty = message
+        #pdb.set_trace()
+        cursor.execute(f'delete from `dakota_phrases` where id={message_id}')
+        CONN.commit()
+        await ctx.send(f'"{del_message}" was removed from the list.')
+    else:
+        await ctx.send("Haha, thanks for trying.")
 
 @bot.command()
 async def list_all(ctx):

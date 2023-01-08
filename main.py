@@ -28,7 +28,10 @@ compliments = open("compliments", encoding='latin-1').readlines()
 LINK_REGEX = r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))'
 ADD_REGEX = r'\/add (.*)'
 CONN = None
+# Channels bot can talk in
 ALLOWED_CHANNELS = [1004907941322821725, 1035372306928779405, 1012129620964945920]
+# Allowed users
+GOD_USERS = [132323816176091136, 1004897999366922311]
 def db_connection():
     global CONN
     CONN = mariadb.connect(
@@ -154,7 +157,12 @@ async def boss(ctx):
     data = requests.get(url)
     data = json.loads(data.text)
     await ctx.send(data['phrase'])
-
+@bot.command()
+async def deletelast(ctx):
+    cursor = CONN.cursor()
+    last_id = cursor.execute(f'from special_phrases last_insert_id();')
+    cursor.execute(f'delete from `dakota_phrases` where id={last_id}')
+    CONN.commit()
 
 @bot.command()
 async def ask(ctx, *, msg):
@@ -233,7 +241,7 @@ async def on_message(message):
             CONN.commit()
         if message.author == bot.user:
             return
-        if message.author.id == 132323816176091136 or message.author.id == 1004897999366922311:
+        if message.author.id in GOD_USERS:
             if message.content.lower().startswith("/add "):
                 #with open("special_phrases.txt", "a") as file:
                     #file.write(message.content.strip("/add ") + "\n")

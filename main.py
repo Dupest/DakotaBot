@@ -160,13 +160,16 @@ async def boss(ctx):
 @bot.command()
 async def deletelast(ctx):
     cursor = CONN.cursor()
-    last_id = cursor.lastrowid # execute(f'select max(id) from dakota_phrases')
-    #pdb.set_trace()
-    cursor.execute('select `message` from `dakota_phrases` where id={last_id}')
-    message = cursor.fetchone()
-    cursor.execute(f'delete from `dakota_phrases` where id={last_id}')
-    CONN.commit()
-    await ctx.send(f'{message} was removed from the list.')
+    messages = cursor.execute("select `message` from `dakota_phrases`")
+    print(len(messages))
+    print(messages)
+    # last_id = cursor.lastrowid # execute(f'select max(id) from dakota_phrases')
+    # #pdb.set_trace()
+    # cursor.execute('select `message` from `dakota_phrases` where id={last_id}')
+    # message = cursor.fetchone()
+    # cursor.execute(f'delete from `dakota_phrases` where id={last_id}')
+    # CONN.commit()
+    # await ctx.send(f'{message} was removed from the list.')
 
 @bot.command()
 async def ask(ctx, *, msg):

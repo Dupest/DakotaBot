@@ -187,7 +187,10 @@ async def list_all(ctx):
     cursor = CONN.cursor()
     cursor.execute("select * from `dakota_phrases`")
     messages = cursor.fetchall()
-    print_out = "\n".join(messages)
+    print_out = ""
+    for message in messages:
+        message_id, ind_message = message
+        print_out += f'{message_id}: {message}\n'
     ctx.send(f'Current Phrases:\n{print_out}')
 
 @bot.command()

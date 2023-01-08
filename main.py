@@ -291,7 +291,7 @@ async def on_message(message):
                     if link is not None:
                         file.write(link.group(1) + "\n")
                 return
-        if message.author.id == 278393257686335488:
+        if message.author.id == 418230537250144257:
             cursor = CONN.cursor()
             cursor.execute(f'INSERT INTO `mangle_comments` (message, time) VALUES (%s, %s)', (message.content, datetime.utcnow()))
             CONN.commit()

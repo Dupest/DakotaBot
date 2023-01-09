@@ -64,7 +64,7 @@ async def on_resumed():
 async def on_member_join(member):
     cursor = CONN.cursor()
     cursor.execute('select `count` from `counter_table` where id=3')
-    count = cursor.fetchone()
+    count, = cursor.fetchone()
     if count % 15 == 0:
         await simp_for(member)
 @bot.event

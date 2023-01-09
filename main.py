@@ -63,6 +63,8 @@ async def on_resumed():
 @bot.event
 async def on_member_join(member):
     cursor = CONN.cursor()
+    cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=3')
+    CONN.commit()
     cursor.execute('select `count` from `counter_table` where id=3')
     count, = cursor.fetchone()
     if count % 15 == 0:

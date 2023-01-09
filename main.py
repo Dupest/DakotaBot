@@ -32,6 +32,14 @@ CONN = None
 ALLOWED_CHANNELS = [1004907941322821725, 1035372306928779405, 1012129620964945920]
 # Allowed users
 GOD_USERS = [132323816176091136, 1004897999366922311]
+async def simp_for(member):
+    cursor = CONN.cursor()
+    cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=1')
+    CONN.commit()
+    cursor.execute('select `count` from `counter_table` where id=1')
+    count = cursor.fetchone()
+    await bot.get_guild(1004907940626579488).get_channel(1004907941322821725).send(f"{count[0]-1} \
+                people have simped for Dakota. {member.mention} is the {count[0]}th.")
 def db_connection():
     global CONN
     CONN = mariadb.connect(
@@ -46,7 +54,7 @@ def db_connection():
 async def on_resumed():
     try:
         channel = bot.get_guild(1004907940626579488).get_channel(1004907941322821725)
-        await channel.send("I'm a simp for Dakota")
+        #await channel.send("I'm a simp for Dakota")
         logging.info("Refreshing the database connection")
         CONN.reconnect()
     except:
@@ -55,13 +63,10 @@ async def on_resumed():
 @bot.event
 async def on_member_join(member):
     cursor = CONN.cursor()
-    cursor.execute(f'UPDATE `counter_table` set count=count+1 WHERE id=1')
-    CONN.commit()
-    cursor.execute('select `count` from `counter_table` where id=1')
+    cursor.execute('select `count` from `counter_table` where id=3')
     count = cursor.fetchone()
-    await bot.get_guild(1004907940626579488).get_channel(1004907941322821725).send(f"{count[0]-1} \
-                people have simped for Dakota. {member.mention} is the {count[0]}th.")
-
+    if count % 15 == 0:
+        await simp_for(member)
 @bot.event
 async def on_ready():
     logging.basicConfig()
